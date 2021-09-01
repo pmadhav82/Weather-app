@@ -3,14 +3,14 @@ let userInput = form.querySelector("input");
 const msg = document.querySelector(".top-banner .msg");
 const list = document.querySelector(".ajax-section .cities");
 let mykey = "2e8f0a7dd3688402b0ad036b43641a69";
-let display =document.querySelector(".display");
+const display = document.querySelector(".info");
+let current = document.getElementById("current");
 
 
 form.addEventListener("submit",ev=>{
   ev.preventDefault();
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${userInput.value}&appid=${mykey}&units=metric`;
- //check if item is already there or not
- let listItem = document.querySelector(".cities");
+
  
  
   fetch(url).then(response=>{
@@ -44,6 +44,7 @@ weatherDes
 }">
 <figcaption>${responsedData.weather[0]["description"]}</figcaption>
 </figure>
+
 `;
 li.innerHTML = html;
 list.appendChild(li);
@@ -60,3 +61,63 @@ for(let btn of delButton){
  userInput.value = "";
 
 })
+
+success =(position)=>{
+ let latitude = position.coords.latitude;
+ let longitude = position.coords.longitude;
+let url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${mykey}&units=metric`;
+fetch(url).then(response=>{
+  if(response.status >=200&& response.status<300){
+    return response.json();
+  }
+}).then(data=>{
+  const {main,name,sys,weather}= data;
+  let icon = 
+  `http://openweathermap.org/img/wn/${weather[0]["icon"]}@2x.png`;
+  let html =`
+<button id="local">❌</button>
+<h2 class = "city-name" data-name="${name},${sys.country}">
+<span>${name}</span>
+<sup>${sys.country}</sup>
+</h2>
+<div class="city-temp">${Math.round(main.temp)}<sup>°C</sup></div>
+<figure>
+
+<img class="city-icon" src="${icon}" alt="${weather[0]["description"]}">
+<figcaption>${weather[0]["description"]}</figcaption>
+</figure>
+`;
+display.style.display = "block";
+display.innerHTML = html;
+let local = document.getElementById("local");
+local.addEventListener("click",()=>{
+  display.innerHTML ="";
+  display.style.display = "none";
+current.style.display = "block";
+
+})
+}).catch(er=>{
+  alert("Something went wrong..");
+})
+}
+fail =()=>{
+  alert("Could not access location..");
+}
+getLocation=()=>{
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(success,fail);
+
+    }else{
+      alert("Could not access location..");
+    }
+}
+
+
+
+current.addEventListener("click",()=>{
+getLocation();
+current.style.display ="none";
+
+})
+
+
