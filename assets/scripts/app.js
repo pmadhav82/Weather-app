@@ -6,10 +6,28 @@ let mykey = "2e8f0a7dd3688402b0ad036b43641a69";
 const display = document.querySelector(".info");
 let current = document.getElementById("current");
 
+let long;
+let lat;
+
+let  searchElement = document.getElementById("searchElement");
+let searchBox;
+function initMap(){
+ searchBox = new google.maps.places.SearchBox(searchElement);
+ searchBox.addListener("places_changed",()=>{
+   const place = searchBox.getPlaces()[0];
+   if(place ==null)return
+lat = place.geometry.location.lat();
+long = place.geometry.location.lng() })
+} 
+
+
+
+
+
 
 form.addEventListener("submit",ev=>{
   ev.preventDefault();
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${userInput.value}&appid=${mykey}&units=metric`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${mykey}&units=metric`;
 
  
  

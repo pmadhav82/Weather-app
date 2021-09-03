@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Weather app</title>
     <link rel="stylesheet" href="assets/styles/app.css" />
+    <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPwTROYU9oPRxCzycw2agqvrRBc0bAsDQ&libraries=places&callback=initMap" defer>
+</script>
     <script src="assets/scripts/app.js" defer></script>
   </head>
 <body>
@@ -20,8 +23,8 @@
     </div>
     <div class="container">
       <form>
-        <input type="text" placeholder="Search for a city" autofocus>
-        <button type="submit">SUBMIT</button>
+        <input type="text"  id="searchElement" placeholder="Search for a city" autofocus>
+        <button type="submit">Get Weather Info</button>
         <span class="msg"></span>
       </form>
     </div>
