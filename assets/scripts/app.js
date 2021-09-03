@@ -17,7 +17,9 @@ function initMap(){
    const place = searchBox.getPlaces()[0];
    if(place ==null)return
 lat = place.geometry.location.lat();
-long = place.geometry.location.lng() })
+long = place.geometry.location.lng()
+
+})
 } 
 
 
@@ -32,7 +34,7 @@ form.addEventListener("submit",ev=>{
  
  
   fetch(url).then(response=>{
-   if(response.status>=200&& response.status<300){
+   if(response.status>=200&& response.status<300 &&userInput.value == "" ){
      return response.json();
    }else{
      throw new Error("Invalid input..");
@@ -77,6 +79,9 @@ for(let btn of delButton){
    alert(er);
  })
  userInput.value = "";
+ lat = undefined;
+ long=undefined;
+
 
 })
 
